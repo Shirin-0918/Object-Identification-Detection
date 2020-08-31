@@ -1,18 +1,49 @@
-img=""
+var slideIndex = 0;
+showSlides(slideIndex);
 
-function preload(){
-    img=loadImage('dog_cat.jpg');
+function plusSlides(n) {
+  showSlides(slideIndex += n);
 }
-function setup(){
-    canvas=createCanvas(640,430)
-    canvas.center();
-    
+
+function currentSlide(n) {
+  showSlides(slideIndex = n);
 }
-function draw(){
-    image(img,0,0, 640,430);
-    fill('#000000');
-    text('Dog',200,50 );
-    noFill();
-    stroke('#ff0000');
-    rect(50,60,550,500)
+
+function showSlides(n) {
+  var i;
+  
+  var slides = document.getElementsByClassName("mySlides");
+  var dots = document.getElementsByClassName("dot");
+  if (n > slides.length) {slideIndex = 1}    
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";  
+  }
+  for (i = 0; i < dots.length; i++) {
+      dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].style.display = "block";  
+  dots[slideIndex-1].className += " active";
+}
+
+//carousel();
+
+function carousel() {
+
+
+  var i;
+  var x = document.getElementsByClassName("mySlides");
+    var dots = document.getElementsByClassName("dot");
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";
+  }
+  slideIndex++;
+
+  if (slideIndex > x.length) {slideIndex = 1}
+  x[slideIndex-1].style.display = "block";
+   for (i = 0; i < dots.length; i++) {
+      dots[i].className = dots[i].className.replace(" active", "");
+  }
+  dots[slideIndex-1].className += " active";
+  setTimeout(carousel, 5000); // Change image every 2 seconds
 }
