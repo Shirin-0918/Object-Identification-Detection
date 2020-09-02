@@ -1,49 +1,38 @@
-var slideIndex = 0;
-showSlides(slideIndex);
-
-function plusSlides(n) {
-  showSlides(slideIndex += n);
+img=""
+status="";
+objects=[];
+function preload(){
+    img=loadImage('dog_cat.jpg');
 }
-
-function currentSlide(n) {
-  showSlides(slideIndex = n);
+function setup(){
+    canvas=createCanvas(640,430)
+    canvas.center();
+    objectDetector=ml5.objectDetector('cocossd', modelLoaded);
+    document.getElementById("status").innerHTML="Status:Detecting Object";
 }
-
-function showSlides(n) {
-  var i;
-  
-  var slides = document.getElementsByClassName("mySlides");
-  var dots = document.getElementsByClassName("dot");
-  if (n > slides.length) {slideIndex = 1}    
-  if (n < 1) {slideIndex = slides.length}
-  for (i = 0; i < slides.length; i++) {
-      slides[i].style.display = "none";  
-  }
-  for (i = 0; i < dots.length; i++) {
-      dots[i].className = dots[i].className.replace(" active", "");
-  }
-  slides[slideIndex-1].style.display = "block";  
-  dots[slideIndex-1].className += " active";
+function modelLoaded(){
+    console.log("Model Loaded");
+    status=true;
+    objectDetector.detect(img, gotResults);
 }
-
-//carousel();
-
-function carousel() {
-
-
-  var i;
-  var x = document.getElementsByClassName("mySlides");
-    var dots = document.getElementsByClassName("dot");
-  for (i = 0; i < x.length; i++) {
-    x[i].style.display = "none";
-  }
-  slideIndex++;
-
-  if (slideIndex > x.length) {slideIndex = 1}
-  x[slideIndex-1].style.display = "block";
-   for (i = 0; i < dots.length; i++) {
-      dots[i].className = dots[i].className.replace(" active", "");
-  }
-  dots[slideIndex-1].className += " active";
-  setTimeout(carousel, 5000); // Change image every 2 seconds
+function draw(){
+    image(img,0,0, 640,430);
+if(status != ""){
+   for (i = 0; i < objects.length; i++) {
+       document.getElementById("status").innerHTML="Status: Object Detected"
+       fill("#FF0000"); objects[i].y
+       percent=floor(objects[i].confidence*100);
+       text(objects[i].label+ " " +percent+"%",objects[i].x+15,objects[i].y+15);
+       noFill();
+       stroke("#FF0000");
+       rect(objects[i].x,  objects[i].y, objects[i].width,  objects[i].height);
+   }
+}
+}
+function gotResults(error, results){
+    if(error){
+       console.error(error);
+    }
+    console.log(results);
+    objects=results;
 }
