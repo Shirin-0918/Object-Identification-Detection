@@ -9,7 +9,7 @@ width: 100%;
 margin: 0px;
 }
 
-#status
+#status, #objectNum
 {
 font-size: 18px;
 }
@@ -20,4 +20,5 @@ canvas{
     border-top:5px indianred solid;
     border-left:5px pink solid;
     border-right:5px palevioletred solid;
+    margin-top: 30px;
 }
